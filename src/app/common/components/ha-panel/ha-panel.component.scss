@@ -1,0 +1,59 @@
+@use "../../../theme/styles/shared" as *;
+
+:host {
+  @include transition;
+  display: block;
+  padding: $padding-md;
+  background-color: $color-white;
+  border-radius: $border-radius-base;
+  width: 100%;
+  position: relative;
+  margin-bottom: $margin-md;
+
+  &.sm-padding {
+    padding: $padding-xs $padding-sm;
+  }
+}
+.ax-panel {
+  @include transition;
+  overflow: hidden;
+  height: auto;
+  width: 100%;
+
+  &.collapsed {
+    height: 30px;
+  }
+
+  h3 {
+    font-size: $font-heading-4-size;
+    font-weight: bold;
+  }
+
+  .collapsible-icon {
+    @include position(absolute, $margin-lg $margin-lg null null);
+    cursor: pointer;
+  }
+
+  .content {
+    @include transition;
+    transform-origin: top center;
+
+    &.collapsed {
+      @include prefixer(transform, scaleY(0));
+      max-height: 0;
+    }
+  }
+
+  .action-button {
+    z-index: 2;
+    display: flex;
+    gap: $margin-tn;
+
+    &.top {
+      @include position(absolute, $margin-lg $margin-md null null);
+    }
+    &.bottom {
+      @include position(absolute, null $margin-lg $margin-md null);
+    }
+  }
+}

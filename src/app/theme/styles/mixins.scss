@@ -1,0 +1,135 @@
+@use "functions" as *;
+@use "sass:meta";
+@use 'sass:list';
+
+@mixin flexHorizontal {
+  display: flex;
+  flex-direction: row;
+}
+@mixin flexHorizontalTop {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+@mixin flexHorizontalLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+@mixin flexHorizontalRight {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+@mixin flexHorizontalMiddle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+@mixin flexHorizontalMiddleSpaceBetween {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+@mixin flexVertical {
+  display: flex;
+  flex-direction: column;
+}
+@mixin flexVerticalMiddle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@mixin flexVerticalTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+@mixin flexVerticalBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+@mixin flexVerticalCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@mixin flexVerticalSpaceBetween {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+@mixin flexMiddle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin grid($columns, $gap: 10px, $mobile-columns: $columns) {
+  display: grid;
+  grid-template-columns: repeat($columns, auto);
+  gap: $gap;
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat($mobile-columns, auto);
+  }
+}
+@mixin middle() {
+  position: absolute;
+  top: 50%;
+  @include prefixer(transform, translateY(-50%));
+}
+@mixin center() {
+  position: absolute;
+  left: 50%;
+  @include prefixer(transform, translateX(-50%));
+}
+@mixin middle-center() {
+  position: absolute;
+  top: 50%; left: 50%;
+  @include prefixer(transform, translate(-50%, -50%));
+}
+@mixin position($position: relative, $coordinates: null null null null) {
+  @if meta.type-of($position) == list {
+    $coordinates: $position;
+    $position: relative;
+  }
+  $coordinates: unpack($coordinates);
+  $offsets: (
+          top: list.nth($coordinates, 1),
+          right: list.nth($coordinates, 2),
+          bottom: list.nth($coordinates, 3),
+          left: list.nth($coordinates, 4)
+  );
+  position: $position;
+  @each $offset, $value in $offsets {
+    @if is-length($value) {
+      #{$offset}: $value;
+    }
+  }
+}
+@mixin circle($size) {
+  height: $size;
+  width: $size;
+  border-radius: 100%;
+}
+@mixin prefixer($property, $value, $important: false) {
+  @if $important {
+    -webkit-#{$property}: $value !important;
+    -moz-#{$property}: $value !important;
+    -ms-#{$property}: $value !important;
+    -o-#{$property}: $value !important;
+    #{$property}: $value !important;
+  } @else {
+    -webkit-#{$property}: $value;
+    -moz-#{$property}: $value;
+    -ms-#{$property}: $value;
+    -o-#{$property}: $value;
+    #{$property}: $value;
+  }
+}
+@mixin transition() {
+  @include prefixer(transition, all 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), true);
+}

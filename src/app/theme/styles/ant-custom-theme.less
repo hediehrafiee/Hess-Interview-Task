@@ -1,0 +1,65 @@
+
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+@import "../../../../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
+// Override less variables to here
+// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
+
+//
+
+// General
+@primary-color: #377dff;
+@border-radius-base: 8px;
+@border-radius-sm: 5px;
+
+// Buttons
+@btn-shadow: 0 2px 2px rgba(0, 0, 0, 0.025);
+@btn-height-base: 30px;
+.ant-btn {
+  font-weight: 500;
+}
+
+// Tabs
+.ant-tabs {
+  width: 100%;
+  flex-direction: column;
+}
+.ant-tabs-nav::before {
+  border-bottom-color: #dfdfdf !important;
+}
+.ant-tabs-tab-btn a {
+  color: @text-color;
+}
+.ant-tabs-tab-active .ant-tabs-tab-btn a {
+  color: @primary-color;
+}
+
+// Tables
+@table-header-bg: #fdfdfd;
+
+.ant-table-wrapper {
+  width: 100%;
+}
+.ant-table {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+// Pagination
+.ant-pagination-item {
+  border-radius: @border-radius-sm;
+}
+
+// Forms
+@form-vertical-label-padding: 0 0 3px;
+@form-item-margin-bottom: 20px;
+
+.ant-form-item-label {
+  overflow: visible;
+  font-weight: 600;
+}
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  position: absolute;
+  top: 5px;
+  right: -15px;
+}

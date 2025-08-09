@@ -1,0 +1,440 @@
+{
+  "auth": {
+    "email": "info@hessadnani.com",
+    "password": "1234567",
+    "access_token": "aaabbbccc111222333",
+    "refresh_token": "aaabbbccc111222333"
+  },
+  "user": {
+    "id": "user-1",
+    "accountStatus": "Active",
+    "roles": "USER",
+    "email": "alice@example.com",
+    "phone": "+15551234567",
+    "phoneCountryCode": "+1",
+    "passwordHash": "hashed_password",
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "address1": "123 Main St",
+    "address2": "Suite 100",
+    "city": "Townsville",
+    "state": "TS",
+    "country": "Wonderland",
+    "postalZip": "12345",
+    "accountProfilePhotoUrl": "https://api.samplefaces.com/face?width=1000&height=1000",
+    "organizationLinks": [
+      {
+        "id": "uo-1",
+        "role": "ADMIN",
+        "dateAdded": "2024-01-01T10:00:00Z",
+        "organization": {
+          "id": "org-1",
+          "email": "info@eventcorp.com",
+          "phone": "+15550000000",
+          "phoneCountryCode": "+1",
+          "status": "active",
+          "website": "https://eventcorp.com",
+          "businessName": "Event Corp",
+          "registrationNumber": "REG123",
+          "vatNumber": "VAT123",
+          "industry": "Events",
+          "address1": "100 Corporate Way",
+          "address2": "Floor 2",
+          "city": "Townsville",
+          "state": "TS",
+          "country": "Wonderland",
+          "postalZip": "54321",
+          "userLinks": [
+            {
+              "id": "uo-1",
+              "role": "ADMIN",
+              "user": {
+                "id": "user-1",
+                "firstName": "Alice",
+                "lastName": "Smith"
+              }
+            }
+          ],
+          "events": [ ]
+        }
+      }
+    ],
+    "leadLinks": [
+      {
+        "id": "lu-1",
+        "dateAdded": "2024-02-01T09:00:00Z",
+        "lead": {
+          "id": "lead-1",
+          "status": "New",
+          "referralSource": "newsletter",
+          "organization": {
+            "id": "org-1"
+          },
+          "person": {
+            "id": "person-2",
+            "email": "leadperson@example.com",
+            "status": "Active",
+            "firstName": "Bob",
+            "lastName": "Lead",
+            "leads": [ ]
+          },
+          "handlerLinks": [
+            {
+              "id": "lu-1",
+              "user": {
+                "id": "user-1",
+                "firstName": "Alice",
+                "lastName": "Smith"
+              }
+            }
+          ],
+          "comments": "Interested in VIP tickets",
+          "dateAdded": "2024-02-01T09:00:00Z"
+        }
+      }
+    ],
+    "person": {
+      "id": "person-1",
+      "email": "alice@example.com",
+      "phone": "+15551234567",
+      "phoneCountryCode": "+1",
+      "status": "Active",
+      "firstName": "Alice",
+      "lastName": "Smith",
+      "address1": "123 Main St",
+      "address2": "Suite 100",
+      "city": "Townsville",
+      "state": "TS",
+      "country": "Wonderland",
+      "postalZip": "12345",
+      "profileImageUrl": "https://example.com/persons/alice.png",
+      "coverImageUrl": "https://example.com/persons/cover.jpg",
+      "firstReferralSource": "conference",
+      "firstReferralSourceId": "conf-2023",
+      "leads": [
+        {
+          "id": "lead-1",
+          "status": "New"
+        }
+      ],
+      "orders": [ ],
+      "ticketPurchases": [ ]
+    },
+    "activeOrganizationId": "org-1",
+    "dateRegistered": "2024-01-01T08:00:00Z",
+    "resetPasswordToken": null,
+    "resetPasswordTokenExpires": null
+  },
+  "events": [
+    {
+      "id": "event-1",
+      "title": "Annual Gala",
+      "status": "Active",
+      "organizer": {
+        "id": "org-1",
+        "businessName": "Event Corp"
+      },
+      "startDateTime": "2024-05-10T18:00:00Z",
+      "endDateTime": "2024-05-10T23:00:00Z",
+      "timezone": "UTC",
+      "description": "A grand gala with music and dinner.",
+      "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/1.jpeg",
+      "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/2.jpeg",
+      "imageGalleryUrls": [
+        "https://api.slingacademy.com/public/sample-photos/1.jpeg",
+        "https://api.slingacademy.com/public/sample-photos/2.jpeg"
+      ],
+      "venue": {
+        "id": "venue-1",
+        "email": "info@grandhall.com",
+        "venueName": "Grand Hall",
+        "address1": "1 Gala Way",
+        "city": "Townsville",
+        "state": "TS",
+        "country": "Wonderland",
+        "postalZip": "12345",
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "imageGalleryUrls": [
+          "https://api.slingacademy.com/public/sample-photos/3.jpeg"
+        ]
+      },
+      "tickets": [
+        {
+          "id": "ticket-1",
+          "prefix": "VIP",
+          "postfix": "A",
+          "ticketName": "VIP",
+          "price": 150,
+          "currency": "USD",
+          "capacity": 50,
+          "coupons": [
+            {
+              "id": "coupon-1",
+              "code": "SAVE20",
+              "discount": 20
+            }
+          ],
+          "ticketPurchases": [
+            {
+              "id": "purchase-1",
+              "person": {
+                "id": "person-1",
+                "firstName": "Alice"
+              },
+              "quantity": 2,
+              "purchaseDate": "2024-04-01T10:00:00Z",
+              "totalPrice": 300
+            }
+          ],
+          "dateAdded": "2024-03-01T12:00:00Z"
+        }
+      ],
+      "leads": [
+        {
+          "id": "lead-2",
+          "status": "Contacted",
+          "organization": {
+            "id": "org-1"
+          },
+          "person": {
+            "id": "person-3",
+            "email": "guest1@example.com",
+            "status": "Active"
+          },
+          "handlerLinks": [
+            {
+              "id": "leaduser-2",
+              "user": {
+                "id": "user-1"
+              }
+            }
+          ]
+        }
+      ],
+      "dateAdded": "2024-03-01T12:00:00Z",
+      "dateUpdated": null,
+      "dateDeleted": null
+    },
+    {
+      "id": "event-2",
+      "title": "Tech Conference",
+      "status": "Active",
+      "organizer": {
+        "id": "org-1",
+        "businessName": "Event Corp"
+      },
+      "startDateTime": "2024-06-15T09:00:00Z",
+      "endDateTime": "2024-06-15T17:00:00Z",
+      "timezone": "UTC",
+      "description": "A conference about the latest in technology.",
+      "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/4.jpeg",
+      "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/5.jpeg",
+      "imageGalleryUrls": [
+        "https://api.slingacademy.com/public/sample-photos/4.jpeg",
+        "https://api.slingacademy.com/public/sample-photos/5.jpeg"
+      ],
+      "venue": {
+        "id": "venue-2",
+        "email": "info@techcenter.com",
+        "venueName": "Tech Center",
+        "address1": "500 Innovation Dr",
+        "city": "Townsville",
+        "state": "TS",
+        "country": "Wonderland",
+        "postalZip": "12345",
+        "latitude": 41,
+        "longitude": -75,
+        "imageGalleryUrls": [
+          "https://api.slingacademy.com/public/sample-photos/6.jpeg"
+        ]
+      },
+      "tickets": [
+        {
+          "id": "ticket-2",
+          "prefix": "GEN",
+          "postfix": "B",
+          "ticketName": "General",
+          "price": 75,
+          "currency": "USD",
+          "capacity": 200,
+          "coupons": [ ],
+          "ticketPurchases": [ ],
+          "dateAdded": "2024-04-01T12:00:00Z"
+        }
+      ],
+      "leads": [ ],
+      "dateAdded": "2024-04-01T12:00:00Z",
+      "dateUpdated": null,
+      "dateDeleted": null
+    },
+    {
+      "id": "event-3",
+      "title": "Music Festival",
+      "status": "Active",
+      "organizer": {
+        "id": "org-1",
+        "businessName": "Event Corp"
+      },
+      "startDateTime": "2024-07-20T12:00:00Z",
+      "endDateTime": "2024-07-20T22:00:00Z",
+      "timezone": "UTC",
+      "description": "Outdoor music festival with multiple bands.",
+      "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/7.jpeg",
+      "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/8.jpeg",
+      "imageGalleryUrls": [
+        "https://api.slingacademy.com/public/sample-photos/7.jpeg",
+        "https://api.slingacademy.com/public/sample-photos/8.jpeg"
+      ],
+      "venue": {
+        "id": "venue-3",
+        "email": "info@openfield.com",
+        "venueName": "Open Field",
+        "address1": "800 Festival Rd",
+        "city": "Townsville",
+        "state": "TS",
+        "country": "Wonderland",
+        "postalZip": "12345",
+        "latitude": 42,
+        "longitude": -76,
+        "imageGalleryUrls": [
+          "https://api.slingacademy.com/public/sample-photos/9.jpeg"
+        ]
+      },
+      "tickets": [
+        {
+          "id": "ticket-3",
+          "prefix": "VIP",
+          "postfix": "C",
+          "ticketName": "VIP",
+          "price": 200,
+          "currency": "USD",
+          "capacity": 100,
+          "coupons": [
+            {
+              "id": "coupon-2",
+              "code": "FEST10",
+              "discount": 10
+            }
+          ],
+          "ticketPurchases": [ ],
+          "dateAdded": "2024-05-01T12:00:00Z"
+        }
+      ],
+      "leads": [ ],
+      "dateAdded": "2024-05-01T12:00:00Z",
+      "dateUpdated": null,
+      "dateDeleted": null
+    },
+    {
+      "id": "event-4",
+      "title": "Art Expo",
+      "status": "Active",
+      "organizer": {
+        "id": "org-1",
+        "businessName": "Event Corp"
+      },
+      "startDateTime": "2024-08-05T10:00:00Z",
+      "endDateTime": "2024-08-05T18:00:00Z",
+      "timezone": "UTC",
+      "description": "Exhibition showcasing local artists.",
+      "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/10.jpeg",
+      "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/11.jpeg",
+      "imageGalleryUrls": [
+        "https://api.slingacademy.com/public/sample-photos/10.jpeg",
+        "https://api.slingacademy.com/public/sample-photos/11.jpeg"
+      ],
+      "venue": {
+        "id": "venue-4",
+        "email": "info@artcenter.com",
+        "venueName": "Art Center",
+        "address1": "300 Gallery Ln",
+        "city": "Townsville",
+        "state": "TS",
+        "country": "Wonderland",
+        "postalZip": "12345",
+        "latitude": 43,
+        "longitude": -77,
+        "imageGalleryUrls": [
+          "https://api.slingacademy.com/public/sample-photos/12.jpeg"
+        ]
+      },
+      "tickets": [
+        {
+          "id": "ticket-4",
+          "prefix": "GEN",
+          "postfix": "D",
+          "ticketName": "General",
+          "price": 30,
+          "currency": "USD",
+          "capacity": 300,
+          "coupons": [ ],
+          "ticketPurchases": [ ],
+          "dateAdded": "2024-06-01T12:00:00Z"
+        }
+      ],
+      "leads": [ ],
+      "dateAdded": "2024-06-01T12:00:00Z",
+      "dateUpdated": null,
+      "dateDeleted": null
+    },
+    {
+      "id": "event-5",
+      "title": "Charity Run",
+      "status": "Active",
+      "organizer": {
+        "id": "org-1",
+        "businessName": "Event Corp"
+      },
+      "startDateTime": "2024-09-10T07:00:00Z",
+      "endDateTime": "2024-09-10T11:00:00Z",
+      "timezone": "UTC",
+      "description": "5K run to raise funds for charity.",
+      "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/13.jpeg",
+      "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/14.jpeg",
+      "imageGalleryUrls": [
+        "https://api.slingacademy.com/public/sample-photos/13.jpeg",
+        "https://api.slingacademy.com/public/sample-photos/14.jpeg"
+      ],
+      "venue": {
+        "id": "venue-5",
+        "email": "info@citypark.com",
+        "venueName": "City Park",
+        "address1": "900 Park Ave",
+        "city": "Townsville",
+        "state": "TS",
+        "country": "Wonderland",
+        "postalZip": "12345",
+        "latitude": 44,
+        "longitude": -78,
+        "imageGalleryUrls": [
+          "https://example.com/venues/citypark/img1.jpg"
+        ]
+      },
+      "tickets": [
+        {
+          "id": "ticket-5",
+          "prefix": "RUN",
+          "postfix": "E",
+          "ticketName": "Runner",
+          "price": 25,
+          "currency": "USD",
+          "capacity": 500,
+          "coupons": [
+            {
+              "id": "coupon-3",
+              "code": "RUN5",
+              "discount": 5
+            }
+          ],
+          "ticketPurchases": [ ],
+          "dateAdded": "2024-07-01T12:00:00Z"
+        }
+      ],
+      "leads": [ ],
+      "dateAdded": "2024-07-01T12:00:00Z",
+      "dateUpdated": null,
+      "dateDeleted": null
+    }
+  ]
+}

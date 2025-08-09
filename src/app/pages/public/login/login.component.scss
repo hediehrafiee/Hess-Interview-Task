@@ -1,0 +1,18 @@
+@use '../../../theme/styles/shared' as *;
+
+.login {
+  @include flexVerticalCenter;
+  @include position(fixed, 0 0 0 0);
+  padding-top: 80px;
+  background-color: $background-color;
+
+  .login-box {
+    width: 400px;
+    text-align: center;
+
+    h1 {
+      font-size: $font-heading-4-size;
+      line-height: $font-heading-4-line-height;
+    }
+  }
+}

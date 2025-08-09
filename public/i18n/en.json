@@ -1,0 +1,25 @@
+{
+  "common": {
+    "Email": "Email",
+    "EmailAddress": "Email Address",
+    "PleaseEnterYourEmail": "Please enter your email",
+    "Password": "Password",
+    "PleaseEnterYourPassword": "Please enter your password",
+    "FirstName": "First Name",
+    "PleaseEnterYourFirstName": "Please enter your first name",
+    "LastName": "Last Name",
+    "PleaseEnterYourLastName": "Please enter your last name"
+  },
+  "login": {
+    "LoginToYourAccount": "Login to Your Account",
+    "Login": "Login",
+    "ForgotPassword": "Forgot Password",
+    "DontHaveAnAccount": "RegisterANewAccount",
+    "2025EventOrganizer": "©2025 Event Organizer"
+  },
+  "register": {
+    "RegisterANewAccount": "Register a New Account",
+    "Register": "Register",
+    "AlreadyHaveAnAccount": "I already have an account"
+  }
+}

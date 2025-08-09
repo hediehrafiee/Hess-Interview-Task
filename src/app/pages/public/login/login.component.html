@@ -1,0 +1,61 @@
+<div class="login">
+  <ha-panel class="login-box">
+    <h1>{{ "login.LoginToYourAccount" | translate }}</h1>
+    <form nz-form [formGroup]="formGroup" nzLayout="vertical" (ngSubmit)="login()">
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="email">
+          {{'common.Email' | translate }}
+        </nz-form-label>
+        <nz-form-control [nzErrorTip]="'common.PleaseEnterYourEmail' | translate">
+          <input type="text"
+                 nz-input
+                 formControlName="email"
+                 id="email"
+                 placeholder="{{ 'common.EmailAddress' | translate }}"
+                 nzSize="large"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="email">
+          {{'common.Password' | translate }}
+        </nz-form-label>
+        <nz-form-control [nzErrorTip]="'common.PleaseEnterYourPassword' | translate">
+          <nz-input-group nzSize="large" [nzSuffix]="suffixTemplate">
+            <input [type]="passwordVisible() ? 'text' : 'password'"
+                   nz-input
+                   placeholder="{{ 'common.Password' | translate }}"
+                   formControlName="password"
+                   id="password"/>
+          </nz-input-group>
+          <ng-template #suffixTemplate>
+            <nz-icon [nzType]="passwordVisible() ? 'eye-invisible' : 'eye'"
+                     (click)="passwordVisible.set(!passwordVisible());"/>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <button nz-button
+              nzBlock
+              nzSize="large"
+              nzType="primary"
+              [disabled]="!formGroup.valid || isSubmitting()">
+        {{ 'login.Login' | translate }}
+      </button>
+
+      <br/><br/>
+
+      <button nz-button nzBlock nzSize="large" nzType="text">
+        {{ 'login.ForgotPassword' | translate }}
+      </button>
+
+      <br/><br/>
+
+      <button nz-button nzBlock nzSize="large" nzType="text" (click)="goToRegister()">
+        {{ 'register.RegisterANewAccount' | translate }}
+      </button>
+
+    </form>
+  </ha-panel>
+</div>

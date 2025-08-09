@@ -1,0 +1,37 @@
+<div class="ax-panel" [class.collapsed]="collapsible() && isCollapsed()">
+
+    <h3 *ngIf="panelHeading().length > 0">{{panelHeading()}}</h3>
+
+    @if (editButton() || addButton()) {
+
+        <div class="action-button top">
+            @if (editButton()) {
+                <button nz-button nzSize="small" (click)="editButtonClick.emit()">
+                    <nz-icon nzType="edit"></nz-icon>
+                </button>
+            }
+            @if (addButton()) {
+                <button nz-button nzSize="small" (click)="addButtonClick.emit()">
+                    <nz-icon nzType="plus"></nz-icon>
+                </button>
+            }
+        </div>
+    }
+
+    <nz-icon class="collapsible-icon"
+             *ngIf="collapsible() && !isCollapsed()"
+             nzType="up"
+             nzTheme="outline"
+             (click)="isCollapsed.set(true)" />
+
+    <nz-icon class="collapsible-icon"
+             *ngIf="collapsible() && isCollapsed()"
+             nzType="down"
+             nzTheme="outline"
+             (click)="isCollapsed.set(false)" />
+
+    <div class="content" [class.collapsed]="collapsible() && isCollapsed()">
+        <ng-content></ng-content>
+    </div>
+
+</div>
