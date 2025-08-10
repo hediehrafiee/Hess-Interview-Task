@@ -8,4 +8,5 @@ export interface CreateEventModel {
   primaryImageUrl?: string;
   coverImageUrl?: string;
   imageGalleryUrls?: string[];
+  isPublic?: boolean;
 }

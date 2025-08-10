@@ -9,4 +9,5 @@ export interface UpdateEventModel {
   primaryImageUrl?: string;
   coverImageUrl?: string;
   imageGalleryUrls?: string[];
+  isPublic?: boolean;
 }
