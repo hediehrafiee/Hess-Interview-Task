@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { environment } from '@environment/environment';
 import { ApiService } from '@core/services/api.service';
 import { EventModel } from '../models/event.model';
@@ -82,6 +82,10 @@ export class EventService {
 
   /** Remove an event by id */
   remove(id: string): Observable<void> {
+    if (environment.mockDataUrl) {
+      // simulate delete when using mock data
+      return of(void 0);
+    }
     return this._http.delete<void>(`${this.apiUrl}/events/${id}`);
   }
 }

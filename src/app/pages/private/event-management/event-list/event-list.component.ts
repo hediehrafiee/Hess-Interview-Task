@@ -14,7 +14,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { SharedModule } from '@common/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EventStateService } from '@core/services/event.state.service';
+import {
+  EventStateService,
+  SortDirection,
+} from '@core/services/event.state.service';
 
 @Component({
   selector: 'app-event-list',
@@ -40,6 +43,7 @@ import { EventStateService } from '@core/services/event.state.service';
 export default class EventListComponent {
   readonly vm = inject(EventStateService);
   private readonly router = inject(Router);
+  readonly SortDirection = SortDirection;
 
   ngOnInit(): void {
     this.vm.load();

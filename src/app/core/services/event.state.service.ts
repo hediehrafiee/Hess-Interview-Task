@@ -9,6 +9,10 @@ export enum PrivacyFilter {
   Public = 'public',
   Private = 'private',
 }
+export enum SortDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
 
 interface ViewState<T> {
   data: T;
@@ -35,11 +39,13 @@ export class EventStateService {
 
   searchTerm = signal<string>('');
   visibility = signal<PrivacyFilter>(PrivacyFilter.All);
+  sortDirection = signal<SortDirection>(SortDirection.Asc);
 
   filtered = computed(() => {
     const term = this.searchTerm().toLowerCase();
     const filter = this.visibility();
     const orgId = this.user.user()?.activeOrganizationId;
+    const direction = this.sortDirection();
 
     return this.events()
       .filter((e) =>
@@ -53,11 +59,12 @@ export class EventStateService {
           : true
       )
       .filter((e) => e.title.toLowerCase().includes(term))
-      .sort(
-        (a, b) =>
+      .sort((a, b) => {
+        const diff =
           new Date(a.startDateTime).getTime() -
-          new Date(b.startDateTime).getTime()
-      );
+          new Date(b.startDateTime).getTime();
+        return direction === SortDirection.Asc ? diff : -diff;
+      });
   });
 
   load(): void {
@@ -105,8 +112,15 @@ export class EventStateService {
   setVisibility(v: PrivacyFilter) {
     this.visibility.set(v);
   }
+
+  toggleSortDirection() {
+    this.sortDirection.update((dir) =>
+      SortDirection.Asc ? SortDirection.Desc : SortDirection.Asc
+    );
+  }
   reset() {
     this.searchTerm.set('');
     this.visibility.set(PrivacyFilter.All);
+    this.sortDirection.set(SortDirection.Asc);
   }
 }

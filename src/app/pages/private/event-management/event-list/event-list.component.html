@@ -65,7 +65,18 @@
         <thead>
           <tr>
             <th>{{ "events.list.EventDetails" | translate }}</th>
-            <th>{{ "common.Date" | translate }}</th>
+            <th class="sortable" (click)="vm.toggleSortDirection()">
+              {{ "common.Date" | translate }}
+              <i
+                nz-icon
+                [nzType]="
+                  vm.sortDirection() === SortDirection.Asc
+                    ? 'sort-ascending'
+                    : 'sort-descending'
+                "
+              ></i>
+            </th>
+
             <th>{{ "common.Visibility" | translate }}</th>
             <th>{{ "common.Actions" | translate }}</th>
           </tr>
