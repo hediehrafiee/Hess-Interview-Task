@@ -14,4 +14,5 @@ export interface UserModel {
   country?: string;
   postalZip?: string;
   accountProfilePhotoUrl?: string;
+  activeOrganizationId?: string;
 }
