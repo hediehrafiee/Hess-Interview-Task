@@ -1,0 +1,97 @@
+<nz-card nzTitle="Event" class="event-form-card">
+  <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+    <nz-form-item>
+      <nz-form-label nzFor="title" [nzRequired]="true">Title</nz-form-label>
+      <nz-form-control nzErrorTip="Please enter a title">
+        <input nz-input id="title" formControlName="title" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="description">Description</nz-form-label>
+      <nz-form-control>
+        <textarea
+          nz-input
+          id="description"
+          formControlName="description"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="startDateTime" [nzRequired]="true"
+        >Date & Time</nz-form-label
+      >
+      <nz-form-control nzErrorTip="Select date and time">
+        <nz-date-picker
+          id="startDateTime"
+          formControlName="startDateTime"
+          nzShowTime
+        ></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="timezone" [nzRequired]="true"
+        >Timezone</nz-form-label
+      >
+      <nz-form-control nzErrorTip="Select timezone">
+        <nz-select id="timezone" formControlName="timezone">
+          <nz-option
+            *ngFor="let tz of timeZones"
+            [nzLabel]="tz"
+            [nzValue]="tz"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="venue" [nzRequired]="true">Location</nz-form-label>
+      <nz-form-control nzErrorTip="Enter location">
+        <input nz-input id="venue" formControlName="venueId" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="primaryImage">Primary Image</nz-form-label>
+      <nz-form-control>
+        <nz-upload
+          nzListType="picture"
+          [nzBeforeUpload]="beforePrimaryUpload"
+          [nzFileList]="primaryImageList"
+        >
+          <button nz-button type="button">Upload</button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="coverImage">Cover Image</nz-form-label>
+      <nz-form-control>
+        <nz-upload
+          nzListType="picture"
+          [nzBeforeUpload]="beforeCoverUpload"
+          [nzFileList]="coverImageList"
+        >
+          <button nz-button type="button">Upload</button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="isPublic">Public</nz-form-label>
+      <nz-form-control>
+        <nz-switch id="isPublic" formControlName="isPublic"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="form.invalid">
+          Save
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
