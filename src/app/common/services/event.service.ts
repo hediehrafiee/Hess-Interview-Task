@@ -6,6 +6,7 @@ import { ApiService } from '@core/services/api.service';
 import { EventModel } from '../models/event.model';
 import { CreateEventModel } from '../models/dtos/create-event.model';
 import { UpdateEventModel } from '../models/dtos/update-event.model';
+import { EventQueryModel } from '../models/dtos/event-query.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,22 +27,27 @@ export class EventService {
    * Get all events. Optional query parameters can be provided
    * for future filtering or pagination support.
    */
-  findAll(query?: { [key: string]: any }): Observable<EventModel[]> {
+  findAll(query?: EventQueryModel): Observable<EventModel[]> {
     if (environment.mockDataUrl) {
-      return this._http.get<any>(environment.mockDataUrl).pipe(
-        map((res) => {
-          let events = res?.events ?? [];
-          if (query) {
-            Object.keys(query).forEach((key) => {
-              const value = query[key];
-              if (value !== undefined && value !== null) {
-                events = events.filter((e: any) => e[key] === value);
-              }
-            });
-          }
-          return events;
-        })
-      );
+      return this._http
+        .get<{ events?: EventModel[] }>(environment.mockDataUrl)
+        .pipe(
+          map((res) => {
+            let events: EventModel[] = res?.events ?? [];
+            if (query) {
+              Object.keys(query).forEach((key) => {
+                const value = query[key];
+                if (value !== undefined && value !== null) {
+                  events = events.filter(
+                    (e) =>
+                      (e as unknown as Record<string, unknown>)[key] === value
+                  );
+                }
+              });
+            }
+            return events;
+          })
+        );
     }
 
     let params = new HttpParams();
@@ -49,11 +55,11 @@ export class EventService {
       Object.keys(query).forEach((key) => {
         const value = query[key];
         if (value !== undefined && value !== null) {
-          params = params.set(key, value);
+          params = params.set(key, String(value));
         }
       });
     }
-    return this._http.get<any[]>(`${this.apiUrl}/events`, { params });
+    return this._http.get<EventModel[]>(`${this.apiUrl}/events`, { params });
   }
 
   /** Get a single event by its id */

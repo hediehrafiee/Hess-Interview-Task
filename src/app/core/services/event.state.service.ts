@@ -4,7 +4,11 @@ import { EventService } from '@common/services/event.service';
 import { UserService } from '@core/services/user.service';
 import { EventModel } from '@common/models/event.model';
 
-export type PrivacyFilter = 'all' | 'public' | 'private';
+export enum PrivacyFilter {
+  All = 'all',
+  Public = 'public',
+  Private = 'private',
+}
 
 interface ViewState<T> {
   data: T;
@@ -30,7 +34,7 @@ export class EventStateService {
   error = computed(() => this.state().error);
 
   searchTerm = signal<string>('');
-  visibility = signal<PrivacyFilter>('all');
+  visibility = signal<PrivacyFilter>(PrivacyFilter.All);
 
   filtered = computed(() => {
     const term = this.searchTerm().toLowerCase();
@@ -42,9 +46,9 @@ export class EventStateService {
         orgId ? e.organizerId === orgId || e.organizer?.id === orgId : true
       )
       .filter((e) =>
-        filter === 'public'
+        filter === PrivacyFilter.Public
           ? e.isPublic
-          : filter === 'private'
+          : filter === PrivacyFilter.Private
           ? !e.isPublic
           : true
       )
@@ -103,6 +107,6 @@ export class EventStateService {
   }
   reset() {
     this.searchTerm.set('');
-    this.visibility.set('all');
+    this.visibility.set(PrivacyFilter.All);
   }
 }
