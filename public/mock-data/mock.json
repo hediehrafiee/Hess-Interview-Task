@@ -55,7 +55,7 @@
               }
             }
           ],
-          "events": [ ]
+          "events": []
         }
       }
     ],
@@ -76,7 +76,7 @@
             "status": "Active",
             "firstName": "Bob",
             "lastName": "Lead",
-            "leads": [ ]
+            "leads": []
           },
           "handlerLinks": [
             {
@@ -117,8 +117,8 @@
           "status": "New"
         }
       ],
-      "orders": [ ],
-      "ticketPurchases": [ ]
+      "orders": [],
+      "ticketPurchases": []
     },
     "activeOrganizationId": "org-1",
     "dateRegistered": "2024-01-01T08:00:00Z",
@@ -137,6 +137,7 @@
       "startDateTime": "2024-05-10T18:00:00Z",
       "endDateTime": "2024-05-10T23:00:00Z",
       "timezone": "UTC",
+      "isPublic": true,
       "description": "A grand gala with music and dinner.",
       "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/1.jpeg",
       "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/2.jpeg",
@@ -227,6 +228,7 @@
       "startDateTime": "2024-06-15T09:00:00Z",
       "endDateTime": "2024-06-15T17:00:00Z",
       "timezone": "UTC",
+      "isPublic": false,
       "description": "A conference about the latest in technology.",
       "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/4.jpeg",
       "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/5.jpeg",
@@ -258,12 +260,12 @@
           "price": 75,
           "currency": "USD",
           "capacity": 200,
-          "coupons": [ ],
-          "ticketPurchases": [ ],
+          "coupons": [],
+          "ticketPurchases": [],
           "dateAdded": "2024-04-01T12:00:00Z"
         }
       ],
-      "leads": [ ],
+      "leads": [],
       "dateAdded": "2024-04-01T12:00:00Z",
       "dateUpdated": null,
       "dateDeleted": null
@@ -279,6 +281,7 @@
       "startDateTime": "2024-07-20T12:00:00Z",
       "endDateTime": "2024-07-20T22:00:00Z",
       "timezone": "UTC",
+      "isPublic": true,
       "description": "Outdoor music festival with multiple bands.",
       "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/7.jpeg",
       "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/8.jpeg",
@@ -317,11 +320,11 @@
               "discount": 10
             }
           ],
-          "ticketPurchases": [ ],
+          "ticketPurchases": [],
           "dateAdded": "2024-05-01T12:00:00Z"
         }
       ],
-      "leads": [ ],
+      "leads": [],
       "dateAdded": "2024-05-01T12:00:00Z",
       "dateUpdated": null,
       "dateDeleted": null
@@ -337,6 +340,7 @@
       "startDateTime": "2024-08-05T10:00:00Z",
       "endDateTime": "2024-08-05T18:00:00Z",
       "timezone": "UTC",
+      "isPublic": false,
       "description": "Exhibition showcasing local artists.",
       "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/10.jpeg",
       "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/11.jpeg",
@@ -368,12 +372,12 @@
           "price": 30,
           "currency": "USD",
           "capacity": 300,
-          "coupons": [ ],
-          "ticketPurchases": [ ],
+          "coupons": [],
+          "ticketPurchases": [],
           "dateAdded": "2024-06-01T12:00:00Z"
         }
       ],
-      "leads": [ ],
+      "leads": [],
       "dateAdded": "2024-06-01T12:00:00Z",
       "dateUpdated": null,
       "dateDeleted": null
@@ -389,6 +393,7 @@
       "startDateTime": "2024-09-10T07:00:00Z",
       "endDateTime": "2024-09-10T11:00:00Z",
       "timezone": "UTC",
+      "isPublic": true,
       "description": "5K run to raise funds for charity.",
       "primaryImageUrl": "https://api.slingacademy.com/public/sample-photos/13.jpeg",
       "coverImageUrl": "https://api.slingacademy.com/public/sample-photos/14.jpeg",
@@ -407,9 +412,7 @@
         "postalZip": "12345",
         "latitude": 44,
         "longitude": -78,
-        "imageGalleryUrls": [
-          "https://example.com/venues/citypark/img1.jpg"
-        ]
+        "imageGalleryUrls": ["https://example.com/venues/citypark/img1.jpg"]
       },
       "tickets": [
         {
@@ -427,11 +430,11 @@
               "discount": 5
             }
           ],
-          "ticketPurchases": [ ],
+          "ticketPurchases": [],
           "dateAdded": "2024-07-01T12:00:00Z"
         }
       ],
-      "leads": [ ],
+      "leads": [],
       "dateAdded": "2024-07-01T12:00:00Z",
       "dateUpdated": null,
       "dateDeleted": null
