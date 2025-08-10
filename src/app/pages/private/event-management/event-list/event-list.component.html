@@ -1,0 +1,130 @@
+<div class="login">
+  <div class="event-container">
+    <div class="header">
+      <div>
+        <h1>
+          <i nz-icon nzType="calendar"></i>
+          {{ "events.list.Title" | translate }}
+        </h1>
+        <p>{{ "events.list.Subtitle" | translate }}</p>
+      </div>
+      <button nz-button nzType="primary" (click)="create()">
+        <i nz-icon nzType="plus"></i> {{ "events.list.NewEvent" | translate }}
+      </button>
+    </div>
+
+    <nz-card nzHoverable>
+      <div class="controls">
+        <nz-input-group nzPrefixIcon="search">
+          <input
+            nz-input
+            [placeholder]="'common.SearchByTitle' | translate"
+            [value]="vm.searchTerm()"
+            (input)="vm.searchTerm.set($any($event.target).value)"
+          />
+        </nz-input-group>
+
+        <nz-select
+          [ngModel]="vm.visibility()"
+          (ngModelChange)="vm.visibility.set($event)"
+        >
+          <nz-option
+            nzValue="all"
+            [nzLabel]="'common.All' | translate"
+          ></nz-option>
+          <nz-option
+            nzValue="public"
+            [nzLabel]="'common.Public' | translate"
+          ></nz-option>
+          <nz-option
+            nzValue="private"
+            [nzLabel]="'common.Private' | translate"
+          ></nz-option>
+        </nz-select>
+      </div>
+
+      @if (!vm.loading() && vm.filtered().length === 0) {
+      <nz-empty
+        [nzNotFoundContent]="'events.list.NoEventsFound' | translate"
+        nzNotFoundImage="simple"
+      >
+        <div nz-empty-footer>
+          <button nz-button nzType="primary" (click)="create()">
+            <i nz-icon nzType="plus-circle"></i>
+            {{ "events.list.CreateFirstEvent" | translate }}
+          </button>
+        </div>
+      </nz-empty>
+      } @if (vm.filtered().length > 0) {
+      <nz-table
+        [nzData]="vm.filtered()"
+        [nzShowPagination]="false"
+        nzBordered
+        [nzLoading]="vm.loading()"
+      >
+        <thead>
+          <tr>
+            <th>{{ "events.list.EventDetails" | translate }}</th>
+            <th>{{ "common.Date" | translate }}</th>
+            <th>{{ "common.Visibility" | translate }}</th>
+            <th>{{ "common.Actions" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (event of vm.filtered(); track event.id) {
+          <tr>
+            <td>
+              <div class="event-title">{{ event.title }}</div>
+              @if (event.description) {
+              <div class="event-desc">
+                {{ event.description | slice : 0 : 60 }}...
+              </div>
+              }
+            </td>
+            <td>
+              <nz-tag>
+                {{ event.startDateTime | date : "MMM dd" }}
+              </nz-tag>
+            </td>
+            <td>
+              <nz-tag [nzColor]="event.isPublic ? 'success' : 'warning'">
+                {{
+                  (event.isPublic ? "common.Public" : "common.Private")
+                    | translate
+                }}
+              </nz-tag>
+            </td>
+            <td>
+              <nz-space nzSize="small">
+                <button
+                  *nzSpaceItem
+                  nz-button
+                  nzType="primary"
+                  nzGhost
+                  (click)="edit(event.id)"
+                  [attr.aria-label]="'common.Edit' | translate"
+                >
+                  <i nz-icon nzType="edit"></i>
+                </button>
+                <button
+                  *nzSpaceItem
+                  nz-button
+                  nzDanger
+                  nzGhost
+                  nz-popconfirm
+                  [nzPopconfirmTitle]="'common.AreYouSure' | translate"
+                  (nzOnConfirm)="remove(event.id)"
+                  [attr.aria-label]="'common.Delete' | translate"
+                >
+                  <i nz-icon nzType="delete"></i>
+                </button>
+              </nz-space>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
+      }
+    </nz-card>
+  </div>
+</div>

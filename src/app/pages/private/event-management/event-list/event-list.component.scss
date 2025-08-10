@@ -1,0 +1,48 @@
+.event-container {
+  max-width: 1200px;
+  margin-inline: auto; // center horizontally
+  padding: 2rem 1.5rem; // more breathing space
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  // Center the content vertically if page height is big
+  min-height: calc(100vh - 4rem);
+  justify-content: center;
+
+  // Smooth fade-in for nicer load
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+// Fade-in animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.event-title {
+  font-weight: 600;
+}
+
+.event-desc {
+  font-size: 0.85rem;
+  color: #888;
+}
