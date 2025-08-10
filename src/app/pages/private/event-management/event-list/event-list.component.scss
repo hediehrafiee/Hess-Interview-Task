@@ -1,14 +1,9 @@
 .event-container {
   max-width: 1200px;
-  margin-inline: auto; // center horizontally
   padding: 2rem 1.5rem; // more breathing space
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 
-  // Center the content vertically if page height is big
   min-height: calc(100vh - 4rem);
-  justify-content: center;
+  margin: 0 auto;
 
   // Smooth fade-in for nicer load
   animation: fadeIn 0.3s ease-in-out;
@@ -30,6 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 1rem;
 }
 
 .controls {
