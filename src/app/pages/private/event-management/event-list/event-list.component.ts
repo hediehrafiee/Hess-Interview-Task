@@ -50,10 +50,10 @@ export default class EventListComponent {
   }
 
   edit(id?: string) {
-    if (id) this.router.navigate(['./', id, 'edit']);
+    if (id) this.router.navigate(['/p/events', id, 'edit']);
   }
   create(): void {
-    this.router.navigate(['./', 'new']);
+    this.router.navigate(['/p/events/new']);
   }
   remove(id?: string) {
     if (id) this.vm.remove(id);
