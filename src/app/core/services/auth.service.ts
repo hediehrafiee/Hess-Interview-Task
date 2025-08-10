@@ -1,22 +1,21 @@
-import {Injectable, signal} from "@angular/core";
-import {Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
-import {Observable, of, tap, catchError, map} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {NoticeService} from '../../common/services/notice.service';
-import {LoginModel} from '../../common/models/dtos/login.model';
-import {RegisterModel} from '../../common/models/dtos/register.model';
-import {UserService} from './user.service';
-import {UserModel} from '../../common/models/user.model';
+import { Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, tap, catchError, map } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { NoticeService } from '../../common/services/notice.service';
+import { LoginModel } from '../../common/models/dtos/login.model';
+import { RegisterModel } from '../../common/models/dtos/register.model';
+import { UserService } from './user.service';
+import { UserModel } from '../../common/models/user.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
-
   public token = signal('');
 
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.mockDataUrl;
   private readonly storageKey = environment.localStorageKey;
 
   constructor(
@@ -52,8 +51,8 @@ export class AuthService {
     //     return of(undefined);
     //   })
     // );
-    return this._http.get<any>(`https://hessadnani.com/api/mock.json`).pipe(
-      tap(res => {
+    return this._http.get<any>(this.apiUrl).pipe(
+      tap((res) => {
         if (res?.auth?.access_token && res?.auth?.refresh_token) {
           this.storeTokens(res.auth.access_token, res.auth.refresh_token);
           this._userService.setUser(res.user as UserModel);
@@ -81,25 +80,31 @@ export class AuthService {
     if (!refresh) {
       return of(undefined);
     }
-    return this._http.post<any>(`${this.apiUrl}/auth/refresh`, {refresh_token: refresh}).pipe(
-      map(res => {
-        if (res?.access_token) {
-          this.storeTokens(res.access_token, res.refresh_token);
-          return res.access_token as string;
-        }
-        return undefined;
-      }),
-      catchError(() => of(undefined))
-    );
+    return this._http
+      .post<any>(`${this.apiUrl}/auth/refresh`, { refresh_token: refresh })
+      .pipe(
+        map((res) => {
+          if (res?.access_token) {
+            this.storeTokens(res.access_token, res.refresh_token);
+            return res.access_token as string;
+          }
+          return undefined;
+        }),
+        catchError(() => of(undefined))
+      );
   }
 
-
   forgotPassword(email: string): Observable<any> {
-    return this._http.post<any>(`${this.apiUrl}/auth/forgot-password`, {email});
+    return this._http.post<any>(`${this.apiUrl}/auth/forgot-password`, {
+      email,
+    });
   }
 
   resetPassword(token: string, password: string): Observable<any> {
-    return this._http.post<any>(`${this.apiUrl}/auth/reset-password`, { token, password });
+    return this._http.post<any>(`${this.apiUrl}/auth/reset-password`, {
+      token,
+      password,
+    });
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<any> {
