@@ -1,8 +1,15 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import {
+  DestroyRef,
+  Injectable,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { EventService } from '@common/services/event.service';
 import { UserService } from '@core/services/user.service';
 import { EventModel } from '@common/models/event.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export enum PrivacyFilter {
   All = 'all',
@@ -31,6 +38,8 @@ export class EventStateService {
     loading: false,
     error: null,
   });
+
+  private destroyRef = inject(DestroyRef);
 
   // --- selectors
   events = computed(() => this.state().data);
@@ -72,6 +81,7 @@ export class EventStateService {
     this.eventsApi
       .findAll()
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.state.update((s) => ({ ...s, loading: false })))
       )
       .subscribe({
@@ -89,6 +99,7 @@ export class EventStateService {
     this.eventsApi
       .remove(id)
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.state.update((s) => ({ ...s, loading: false })))
       )
       .subscribe({
