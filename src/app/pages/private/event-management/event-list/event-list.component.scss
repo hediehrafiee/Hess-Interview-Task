@@ -1,12 +1,20 @@
+@use "../../../../theme/styles/shared" as *;
+
+.login {
+  @include position(fixed, 0 0 0 0);
+  padding-top: $top-menu-height;
+  background-color: $background-light;
+}
+
 .event-container {
   max-width: 1200px;
-  padding: 2rem 1.5rem; // more breathing space
+  padding: $padding-xl $padding-lg; // more breathing space
 
-  min-height: calc(100vh - 4rem);
+  min-height: calc(100vh - $top-menu-height);
   margin: 0 auto;
 
   // Smooth fade-in for nicer load
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn $animation-duration-base $ease-in-out;
 }
 
 // Fade-in animation
@@ -25,13 +33,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 1rem;
+  margin-bottom: $margin-md;
 }
 
 .controls {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: $margin-md;
+  margin-bottom: $margin-md;
 }
 
 .event-title {
@@ -39,8 +47,8 @@
 }
 
 .event-desc {
-  font-size: 0.85rem;
-  color: #888;
+  font-size: $font-size-medium;
+  color: $color-text-light;
 }
 
 th.sortable {
