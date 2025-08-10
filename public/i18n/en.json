@@ -8,7 +8,17 @@
     "FirstName": "First Name",
     "PleaseEnterYourFirstName": "Please enter your first name",
     "LastName": "Last Name",
-    "PleaseEnterYourLastName": "Please enter your last name"
+    "PleaseEnterYourLastName": "Please enter your last name",
+    "SearchByTitle": "Search by title...",
+    "All": "All",
+    "Public": "Public",
+    "Private": "Private",
+    "Date": "Date",
+    "Visibility": "Visibility",
+    "Actions": "Actions",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "AreYouSure": "Are you sure?"
   },
   "login": {
     "LoginToYourAccount": "Login to Your Account",
@@ -16,6 +26,16 @@
     "ForgotPassword": "Forgot Password",
     "DontHaveAnAccount": "RegisterANewAccount",
     "2025EventOrganizer": "©2025 Event Organizer"
+  },
+  "events": {
+    "list": {
+      "Title": "Events",
+      "Subtitle": "Manage your events",
+      "NewEvent": "New Event",
+      "NoEventsFound": "No events found",
+      "CreateFirstEvent": "Create Your First Event",
+      "EventDetails": "Event Details"
+    }
   },
   "register": {
     "RegisterANewAccount": "Register a New Account",
