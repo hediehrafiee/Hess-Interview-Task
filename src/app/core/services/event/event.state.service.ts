@@ -258,13 +258,13 @@ export class EventStateService {
 
         this.notification.success(
           this.translate.instant('common.Success'),
-          this.translate.instant(`events.messages.${actionKey}`)
+          this.translate.instant(`messages.${actionKey}`)
         );
       }),
       catchError((err) => {
         this.notification.error(
           this.translate.instant('common.Error'),
-          this.translate.instant(`events.messages.${actionKey}`)
+          this.translate.instant(`messages.${actionKey}`)
         );
         this.setState({
           loading: false,
