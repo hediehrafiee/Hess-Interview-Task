@@ -23,11 +23,12 @@ interface ViewState<T> {
   loading: boolean;
   error: string | null;
 }
-/**
- * @commit refactor: Centralize state management and submission logic
- * @description This refactoring moves notification and submission state logic into the service and consolidates data updates.
- */
 
+/**
+ * EventStateService is a central state management service for events.
+ * It handles all logic related to fetching, filtering, and mutating event data,
+ * providing a single source of truth for the application.
+ */
 @Injectable({ providedIn: 'root' })
 export class EventStateService {
   private readonly eventsApi = inject(EventMockService);
@@ -56,6 +57,10 @@ export class EventStateService {
 
   eventById = (id: string) => this.events().find((e) => e.id === id);
 
+  /**
+   * A computed signal that filters and sorts the events based on the filter signals.
+   * This logic ensures the UI is always up-to-date with the latest filter state.
+   */
   filtered = computed(() => {
     const term = this.searchTerm().toLowerCase();
     const filter = this.visibility();
@@ -83,9 +88,13 @@ export class EventStateService {
   });
 
   // --- Actions
+
+  /**
+   * Loads all events from the API and updates the state.
+   * The subscription is handled internally within the service.
+   */
   load(): void {
     this.setState({ loading: true, error: null });
-
     this.eventsApi
       .findAll()
       .pipe(
@@ -104,6 +113,11 @@ export class EventStateService {
       });
   }
 
+  /**
+   * Loads a single event by ID and updates the eventDetail signal.
+   * The subscription is handled internally.
+   * @param id The ID of the event to load.
+   */
   loadOne(id: string) {
     this.setState({
       loading: true,
@@ -128,9 +142,8 @@ export class EventStateService {
   }
 
   /**
-   * @commit refactor: Streamline CRUD methods
-   * @description Simplifies create, update, and remove methods by delegating to the API service.
-   * All state mutations are now handled by the central `upsert` helper.
+   * Creates a new event.
+   * @param data The data for the new event.
    */
   create(data: CreateEventModel): Observable<EventModel> {
     this.setState({ loading: true, error: null });
@@ -155,6 +168,11 @@ export class EventStateService {
     );
   }
 
+  /**
+   * Updates an existing event.
+   * @param id The ID of the event to update.
+   * @param data The new data for the event.
+   */
   update(id: string, data: UpdateEventModel): Observable<EventModel> {
     this.setState({ loading: true, error: null });
 
@@ -204,8 +222,10 @@ export class EventStateService {
   }
 
   /**
-   * @commit refactor: Centralize state management and submission logic
-   * @description Moves notification logic and submission state updates into this method.
+   * A unified method for handling create and update operations.
+   * @param data The event data.
+   * @param mode The mode of the operation ('create' or 'edit').
+   * @param eventId The ID of the event if in edit mode.
    */
   submitEvent(
     data: CreateEventModel | UpdateEventModel,
@@ -221,11 +241,13 @@ export class EventStateService {
 
     return request$.pipe(
       tap(() => {
-        const action = mode === EventMode.CREATE ? 'created' : 'updated';
+        const action =
+          mode === EventMode.CREATE ? EventMode.CREATE : EventMode.EDIT;
         this.notification.success('Success', `Event ${action} successfully!`);
       }),
       catchError((err) => {
-        const action = mode === EventMode.CREATE ? 'create' : 'update';
+        const action =
+          mode === EventMode.CREATE ? EventMode.CREATE : EventMode.EDIT;
         this.notification.error('Error', `Failed to ${action} event.`);
         this.setState({
           loading: false,
