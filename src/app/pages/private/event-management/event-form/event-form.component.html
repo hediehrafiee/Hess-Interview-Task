@@ -1,5 +1,10 @@
 <nz-card nzTitle="Event" class="event-form-card">
-  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()">
+  <form
+    nz-form
+    nzLayout="vertical"
+    [formGroup]="eventForm.form"
+    (ngSubmit)="submit()"
+  >
     <nz-row nzGutter="16">
       <nz-col nzSpan="12">
         <nz-form-item>
@@ -7,7 +12,8 @@
           <nz-form-control
             nzErrorTip="Please enter a title"
             [nzValidateStatus]="
-              form.get('title')?.invalid && form.get('title')?.touched
+              eventForm.form.get('title')?.invalid &&
+              eventForm.form.get('title')?.touched
                 ? 'error'
                 : ''
             "
@@ -24,7 +30,8 @@
           <nz-form-control
             nzErrorTip="Please enter location"
             [nzValidateStatus]="
-              form.get('venueId')?.invalid && form.get('venueId')?.touched
+              eventForm.form.get('venueId')?.invalid &&
+              eventForm.form.get('venueId')?.touched
                 ? 'error'
                 : ''
             "
@@ -44,8 +51,8 @@
           <nz-form-control
             nzErrorTip="Please select date and time"
             [nzValidateStatus]="
-              form.get('startDateTime')?.invalid &&
-              form.get('startDateTime')?.touched
+              eventForm.form.get('startDateTime')?.invalid &&
+              eventForm.form.get('startDateTime')?.touched
                 ? 'error'
                 : ''
             "
@@ -69,7 +76,8 @@
           <nz-form-control
             nzErrorTip="Please select timezone"
             [nzValidateStatus]="
-              form.get('timezone')?.invalid && form.get('timezone')?.touched
+              eventForm.form.get('timezone')?.invalid &&
+              eventForm.form.get('timezone')?.touched
                 ? 'error'
                 : ''
             "
