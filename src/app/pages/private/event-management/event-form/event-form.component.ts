@@ -85,7 +85,7 @@ export default class EventFormComponent implements OnInit {
   constructor() {
     effect(() => {
       const event = this.eventState.eventDetail();
-      console.log(event);
+
       if (event) {
         this.eventForm.patchForm(event);
         this.eventId = event.id || null;

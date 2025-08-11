@@ -1,12 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
-import { ApiService } from '@core/services/api.service';
-import { EventModel } from '../models/event.model';
-import { CreateEventModel } from '../models/dtos/create-event.model';
-import { UpdateEventModel } from '../models/dtos/update-event.model';
-import { EventQueryModel } from '../models/dtos/event-query.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,76 +11,40 @@ export class EventService {
 
   constructor(private _http: HttpClient) {}
 
-  #apiService = inject(ApiService);
-
   /** Create a new event */
-  create(data: CreateEventModel): Observable<EventModel> {
-    return this._http.post<EventModel>(`${this.apiUrl}/events`, data);
+  create(data: any): Observable<any> {
+    return this._http.post(`${this.apiUrl}/events`, data);
   }
 
   /**
    * Get all events. Optional query parameters can be provided
    * for future filtering or pagination support.
    */
-  findAll(query?: EventQueryModel): Observable<EventModel[]> {
-    if (environment.mockDataUrl) {
-      return this._http
-        .get<{ events?: EventModel[] }>(environment.mockDataUrl)
-        .pipe(
-          map((res) => {
-            let events: EventModel[] = res?.events ?? [];
-            if (query) {
-              Object.keys(query).forEach((key) => {
-                const value = query[key];
-                if (value !== undefined && value !== null) {
-                  events = events.filter(
-                    (e) =>
-                      (e as unknown as Record<string, unknown>)[key] === value
-                  );
-                }
-              });
-            }
-            return events;
-          })
-        );
-    }
-
+  findAll(query?: { [key: string]: any }): Observable<any[]> {
     let params = new HttpParams();
     if (query) {
       Object.keys(query).forEach((key) => {
         const value = query[key];
         if (value !== undefined && value !== null) {
-          params = params.set(key, String(value));
+          params = params.set(key, value);
         }
       });
     }
-    return this._http.get<EventModel[]>(`${this.apiUrl}/events`, { params });
+    return this._http.get<any[]>(`${this.apiUrl}/events`, { params });
   }
 
   /** Get a single event by its id */
-  findOne(id: string): Observable<EventModel | undefined> {
-    if (environment.mockDataUrl) {
-      return this._http.get<any>(environment.mockDataUrl).pipe(
-        map((res) => {
-          const events = res?.events ?? [];
-          return events.find((e: any) => e.id === id);
-        })
-      );
-    }
-    return this._http.get<EventModel>(`${this.apiUrl}/events/${id}`);
+  findOne(id: string): Observable<any> {
+    return this._http.get(`${this.apiUrl}/events/${id}`);
   }
 
   /** Update an event by id */
-  update(id: string, data: UpdateEventModel): Observable<EventModel> {
-    return this._http.patch<EventModel>(`${this.apiUrl}/events/${id}`, data);
+  update(id: string, data: any): Observable<any> {
+    return this._http.patch(`${this.apiUrl}/events/${id}`, data);
   }
 
   /** Remove an event by id */
-  remove(id: string): Observable<void> {
-    if (environment.mockDataUrl) {
-      // simulate delete when using mock data
-      return of(void 0);
-    }
-    return this._http.delete<void>(`${this.apiUrl}/events/${id}`);
+  remove(id: string): Observable<any> {
+    return this._http.delete(`${this.apiUrl}/events/${id}`);
   }
 }

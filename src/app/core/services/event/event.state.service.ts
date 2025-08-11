@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 import { finalize, tap, catchError } from 'rxjs/operators';
-import { EventService } from '@common/services/event.service';
 import { UserService } from '@core/services/user.service';
 import { EventModel } from '@common/models/event.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -17,16 +16,21 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { EventMode, PrivacyFilter } from '@common/Enums/event.enum';
 import { SortDirection } from '@common/Enums/base.enum';
+import { EventMockService } from '@common/services/event-mock.service';
 
 interface ViewState<T> {
   data: T;
   loading: boolean;
   error: string | null;
 }
+/**
+ * @commit refactor: Centralize state management and submission logic
+ * @description This refactoring moves notification and submission state logic into the service and consolidates data updates.
+ */
 
 @Injectable({ providedIn: 'root' })
 export class EventStateService {
-  private readonly eventsApi = inject(EventService);
+  private readonly eventsApi = inject(EventMockService);
   private readonly user = inject(UserService);
   private readonly notification = inject(NzNotificationService);
   readonly message = inject(NzMessageService);
@@ -123,6 +127,11 @@ export class EventStateService {
     });
   }
 
+  /**
+   * @commit refactor: Streamline CRUD methods
+   * @description Simplifies create, update, and remove methods by delegating to the API service.
+   * All state mutations are now handled by the central `upsert` helper.
+   */
   create(data: CreateEventModel): Observable<EventModel> {
     this.setState({ loading: true, error: null });
 
@@ -194,32 +203,10 @@ export class EventStateService {
     );
   }
 
-  // --- Utilities
-  getById(id: string): EventModel | undefined {
-    return this.state().data.find((e) => e.id === id);
-  }
-
-  // --- Filter Controls
-  setSearch(term: string): void {
-    this.searchTerm.set(term);
-  }
-
-  setVisibility(visibility: PrivacyFilter): void {
-    this.visibility.set(visibility);
-  }
-
-  toggleSortDirection(): void {
-    this.sortDirection.update((current) =>
-      current === SortDirection.Asc ? SortDirection.Desc : SortDirection.Asc
-    );
-  }
-
-  resetFilters(): void {
-    this.searchTerm.set('');
-    this.visibility.set(PrivacyFilter.All);
-    this.sortDirection.set(SortDirection.Asc);
-  }
-
+  /**
+   * @commit refactor: Centralize state management and submission logic
+   * @description Moves notification logic and submission state updates into this method.
+   */
   submitEvent(
     data: CreateEventModel | UpdateEventModel,
     mode: EventMode,
@@ -248,6 +235,18 @@ export class EventStateService {
       }),
       finalize(() => this.setState({ loading: false }))
     );
+  }
+
+  // --- Filter Controls
+  toggleSortDirection(): void {
+    this.sortDirection.update((current) =>
+      current === SortDirection.Asc ? SortDirection.Desc : SortDirection.Asc
+    );
+  }
+  resetFilters(): void {
+    this.searchTerm.set('');
+    this.visibility.set(PrivacyFilter.All);
+    this.sortDirection.set(SortDirection.Asc);
   }
 
   // --- Private Helpers
