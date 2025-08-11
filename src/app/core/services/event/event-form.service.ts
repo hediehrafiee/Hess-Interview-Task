@@ -9,7 +9,10 @@ import { UpdateEventModel } from '@common/models/dtos/update-event.model';
 export class EventFormService {
   private readonly fb = inject(FormBuilder);
 
-  readonly timeZones = (Intl as any).supportedValuesOf?.('timeZone') ?? ['UTC'];
+  readonly timeZones = [
+    'UTC',
+    ...((Intl as any).supportedValuesOf?.('timeZone') ?? []),
+  ];
   private readonly defaultTz =
     Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
@@ -20,7 +23,7 @@ export class EventFormService {
     ],
     description: ['', [Validators.maxLength(1000)]],
     startDateTime: [null as Date | null, [Validators.required]],
-    timezone: [this.timeZones, [Validators.required]],
+    timezone: [this.defaultTz, [Validators.required]],
     venueId: ['', [Validators.required, Validators.minLength(2)]],
     primaryImageUrl: [''],
     coverImageUrl: [''],
