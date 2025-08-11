@@ -28,11 +28,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { EventStateService } from '@core/services/event/event.state.service';
 import { EventMode } from '@common/Enums/event.enum';
 import { ImageHandler } from '@common/utilities/image-handler.utility';
-import { EventModel } from '@common/models/event.model';
-import { CreateEventModel } from '@common/models/dtos/create-event.model';
-import { UpdateEventModel } from '@common/models/dtos/update-event.model';
-import { Observable } from 'rxjs';
-import { EventFormService } from '../../../../core/services/event/event-form.service';
+import { EventFormService } from '@core/services/event/event-form.service';
+import { SharedModule } from '@common/shared.module';
 
 /**
  * A reactive form component for creating and updating events.
@@ -60,6 +57,7 @@ import { EventFormService } from '../../../../core/services/event/event-form.ser
     NzIconModule,
     NzSpaceModule,
     NzSpinModule,
+    SharedModule,
   ],
 })
 export default class EventFormComponent implements OnInit {

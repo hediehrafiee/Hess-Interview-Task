@@ -1,6 +1,6 @@
 <div class="event-form">
   <nz-card
-    nzTitle="Event"
+    [nzTitle]="'events.form.CardTitle' | translate"
     class="event-form-card"
     [nzActions]="[actionButtons]"
   >
@@ -13,11 +13,11 @@
       <nz-row nzGutter="16">
         <nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzFor="title" [nzRequired]="true"
-              >Title</nz-form-label
-            >
+            <nz-form-label nzFor="title" [nzRequired]="true">
+              {{ "events.form.TitleLabel" | translate }}
+            </nz-form-label>
             <nz-form-control
-              nzErrorTip="Please enter a title"
+              [nzErrorTip]="'events.form.TitleError' | translate"
               [nzValidateStatus]="
                 eventForm.form.get('title')?.invalid &&
                 eventForm.form.get('title')?.touched
@@ -31,11 +31,11 @@
         </nz-col>
         <nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzFor="venue" [nzRequired]="true"
-              >Location</nz-form-label
+            <nz-form-label nzFor="venue" [nzRequired]="true">
+              {{ "events.form.LocationLabel" | translate }}</nz-form-label
             >
             <nz-form-control
-              nzErrorTip="Please enter location"
+              [nzErrorTip]="'events.form.LocationError' | translate"
               [nzValidateStatus]="
                 eventForm.form.get('venueId')?.invalid &&
                 eventForm.form.get('venueId')?.touched
@@ -52,8 +52,8 @@
       <nz-row nzGutter="16">
         <nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzFor="startDateTime" [nzRequired]="true"
-              >Date & Time</nz-form-label
+            <nz-form-label nzFor="startDateTime" [nzRequired]="true">
+              {{ "events.form.DateTimeLabel" | translate }}</nz-form-label
             >
             <nz-form-control
               nzErrorTip="Please select date and time"
@@ -69,7 +69,7 @@
                 formControlName="startDateTime"
                 nzShowTime
                 nzFormat="yyyy-MM-dd HH:mm"
-                nzPlaceHolder="Select date and time"
+                [nzPlaceHolder]="'events.form.DateTimePlaceholder' | translate"
                 style="width: 100%"
               ></nz-date-picker>
             </nz-form-control>
@@ -77,11 +77,11 @@
         </nz-col>
         <nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzFor="timezone" [nzRequired]="true"
-              >Timezone</nz-form-label
+            <nz-form-label nzFor="timezone" [nzRequired]="true">
+              {{ "events.form.TimezoneLabel" | translate }}</nz-form-label
             >
             <nz-form-control
-              nzErrorTip="Please select timezone"
+              [nzErrorTip]="'events.form.TimezoneError' | translate"
               [nzValidateStatus]="
                 eventForm.form.get('timezone')?.invalid &&
                 eventForm.form.get('timezone')?.touched
@@ -92,7 +92,7 @@
               <nz-select
                 id="timezone"
                 formControlName="timezone"
-                nzPlaceHolder="Select timezone"
+                [nzPlaceHolder]="'events.form.TimezonePlaceholder' | translate"
                 nzShowSearch
                 style="width: 100%"
               >
@@ -108,14 +108,16 @@
       </nz-row>
 
       <nz-form-item>
-        <nz-form-label nzFor="description">Description</nz-form-label>
+        <nz-form-label nzFor="description">
+          {{ "events.form.DescriptionLabel" | translate }}</nz-form-label
+        >
         <nz-form-control>
           <textarea
             nz-input
             id="description"
             formControlName="description"
             [nzAutosize]="{ minRows: 3, maxRows: 6 }"
-            placeholder="Enter event description"
+            [placeholder]="'events.form.DescriptionPlaceholder' | translate"
           ></textarea>
         </nz-form-control>
       </nz-form-item>
@@ -123,7 +125,9 @@
       <nz-row nzGutter="16">
         <nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzFor="primaryImage">Primary Image</nz-form-label>
+            <nz-form-label nzFor="primaryImage">
+              {{ "events.form.PrimaryImageLabel" | translate }}</nz-form-label
+            >
             <nz-form-control>
               <nz-upload
                 nzListType="picture-card"
@@ -135,14 +139,18 @@
                 (nzRemove)="primaryImageHandler.remove()"
               >
                 <nz-icon nzType="plus"></nz-icon>
-                <div class="ant-upload-text">Upload</div>
+                <div class="ant-upload-text">
+                  {{ "common.Upload" | translate }}
+                </div>
               </nz-upload>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
         <nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzFor="coverImage">Cover Image</nz-form-label>
+            <nz-form-label nzFor="coverImage">
+              {{ "events.form.CoverImageLabel" | translate }}</nz-form-label
+            >
             <nz-form-control>
               <nz-upload
                 nzListType="picture-card"
@@ -154,7 +162,9 @@
                 (nzRemove)="coverImageHandler.remove()"
               >
                 <nz-icon nzType="plus"></nz-icon>
-                <div class="ant-upload-text">Upload</div>
+                <div class="ant-upload-text">
+                  {{ "common.Upload" | translate }}
+                </div>
               </nz-upload>
             </nz-form-control>
           </nz-form-item>
@@ -162,7 +172,9 @@
       </nz-row>
 
       <nz-form-item>
-        <nz-form-label nzFor="isPublic">Public Event</nz-form-label>
+        <nz-form-label nzFor="isPublic">
+          {{ "events.form.PublicEventLabel" | translate }}</nz-form-label
+        >
         <nz-form-control>
           <nz-switch
             id="isPublic"
@@ -185,7 +197,7 @@
       (click)="cancel()"
       [disabled]="eventState.loading()"
     >
-      Cancel
+      {{ "common.Cancel" | translate }}
     </button>
     <button
       *nzSpaceItem
@@ -195,7 +207,7 @@
       [nzLoading]="eventState.loading()"
       [disabled]="eventState.loading()"
     >
-      Submit
+      {{ "common.Submit" | translate }}
     </button>
   </nz-space>
 </ng-template>

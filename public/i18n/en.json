@@ -18,7 +18,10 @@
     "Actions": "Actions",
     "Edit": "Edit",
     "Delete": "Delete",
-    "AreYouSure": "Are you sure?"
+    "AreYouSure": "Are you sure?",
+    "Submit": "Submit",
+    "Cancel": "Cancel",
+    "Upload": "Upload"
   },
   "login": {
     "LoginToYourAccount": "Login to Your Account",
@@ -35,6 +38,24 @@
       "NoEventsFound": "No events found",
       "CreateFirstEvent": "Create Your First Event",
       "EventDetails": "Event Details"
+    },
+    "form": {
+      "CardTitle": "Event",
+      "TitleLabel": "Title",
+      "TitleError": "Please enter a title",
+      "LocationLabel": "Location",
+      "LocationError": "Please enter location",
+      "DateTimeLabel": "Date & Time",
+      "DateTimeError": "Please select date and time",
+      "DateTimePlaceholder": "Select date and time",
+      "TimezoneLabel": "Timezone",
+      "TimezoneError": "Please select timezone",
+      "TimezonePlaceholder": "Select timezone",
+      "DescriptionLabel": "Description",
+      "DescriptionPlaceholder": "Enter event description",
+      "PrimaryImageLabel": "Primary Image",
+      "CoverImageLabel": "Cover Image",
+      "PublicEventLabel": "Public Event"
     }
   },
   "register": {
