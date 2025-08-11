@@ -62,7 +62,6 @@ import { TranslateService } from '@ngx-translate/core';
   ],
 })
 export default class EventFormComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);

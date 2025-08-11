@@ -203,7 +203,7 @@
       *nzSpaceItem
       nz-button
       nzType="primary"
-      type="submit"
+      (click)="submit()"
       [nzLoading]="eventState.loading()"
       [disabled]="eventState.loading()"
     >

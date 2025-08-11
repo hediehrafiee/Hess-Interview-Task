@@ -245,7 +245,17 @@ export class EventStateService {
     const actionKey = mode === EventMode.CREATE ? 'CreateError' : 'EditError';
 
     return request$.pipe(
-      tap(() => {
+      tap((resultEvent) => {
+        this.setState((prev) => {
+          const updatedData =
+            mode === EventMode.CREATE
+              ? [...prev.data, resultEvent]
+              : prev.data.map((e) =>
+                  e.id === eventId ? { ...e, ...resultEvent } : e
+                );
+          return { data: updatedData, error: null };
+        });
+
         this.notification.success(
           this.translate.instant('common.Success'),
           this.translate.instant(`events.messages.${actionKey}`)
