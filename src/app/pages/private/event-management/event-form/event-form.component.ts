@@ -8,7 +8,7 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -30,6 +30,7 @@ import { EventMode } from '@common/Enums/event.enum';
 import { ImageHandler } from '@common/utilities/image-handler.utility';
 import { EventFormService } from '@core/services/event/event-form.service';
 import { SharedModule } from '@common/shared.module';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * A reactive form component for creating and updating events.
@@ -67,6 +68,7 @@ export default class EventFormComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   readonly eventForm = inject(EventFormService);
   readonly eventState = inject(EventStateService);
+  private readonly translate = inject(TranslateService);
 
   eventId: string | null = null;
   mode = signal<EventMode>(EventMode.CREATE);
@@ -115,7 +117,7 @@ export default class EventFormComponent implements OnInit {
     if (this.eventForm.form.invalid) {
       this.eventForm.markAllAsTouched();
       this.eventState.message.warning(
-        'Please fill in all required fields correctly.'
+        this.translate.instant('messages.InvalidForm')
       );
       return;
     }

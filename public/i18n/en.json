@@ -21,7 +21,9 @@
     "AreYouSure": "Are you sure?",
     "Submit": "Submit",
     "Cancel": "Cancel",
-    "Upload": "Upload"
+    "Upload": "Upload",
+    "Success": "Success",
+    "Error": "Error"
   },
   "login": {
     "LoginToYourAccount": "Login to Your Account",
@@ -62,5 +64,15 @@
     "RegisterANewAccount": "Register a New Account",
     "Register": "Register",
     "AlreadyHaveAnAccount": "I already have an account"
+  },
+  "messages": {
+    "LoadError": "Failed to load data",
+    "CreateError": "Failed to create",
+    "UpdateError": "Failed to update",
+    "DeleteError": "Failed to delete ",
+    "UnknownError": "An unknown error occurred",
+    "CreateSuccess": "Event created successfully!",
+    "EditSuccess": "Event updated successfully!",
+    "InvalidForm": "Please fill in all required fields correctly."
   }
 }

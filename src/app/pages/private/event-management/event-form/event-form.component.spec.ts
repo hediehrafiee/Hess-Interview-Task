@@ -51,6 +51,10 @@ const mockActivatedRoute = {
   },
 };
 
+const mockTranslateService = {
+  instant: jasmine.createSpy('instant').and.callFake((key: string) => key),
+};
+
 describe('EventFormComponent', () => {
   let component: EventFormComponent;
   let fixture: ComponentFixture<EventFormComponent>;
@@ -135,7 +139,7 @@ describe('EventFormComponent', () => {
 
       expect(mockEventFormService.markAllAsTouched).toHaveBeenCalled();
       expect(mockEventStateService.message.warning).toHaveBeenCalledWith(
-        'Please fill in all required fields correctly.'
+        'messages.InvalidForm'
       );
       expect(mockEventStateService.submitEvent).not.toHaveBeenCalled();
     });

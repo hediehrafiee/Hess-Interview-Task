@@ -17,6 +17,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { EventMode, PrivacyFilter } from '@common/Enums/event.enum';
 import { SortDirection } from '@common/Enums/base.enum';
 import { EventMockService } from '@common/services/event-mock.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ViewState<T> {
   data: T;
@@ -35,6 +36,8 @@ export class EventStateService {
   private readonly user = inject(UserService);
   private readonly notification = inject(NzNotificationService);
   readonly message = inject(NzMessageService);
+
+  private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
 
   // --- Core State
@@ -102,7 +105,7 @@ export class EventStateService {
         catchError((err) => {
           this.setState({
             loading: false,
-            error: err?.message ?? 'Failed to load events',
+            error: err?.message ?? this.translate.instant('messages.LoadError'),
           });
           return throwError(() => err);
         }),
@@ -160,7 +163,7 @@ export class EventStateService {
       catchError((err) => {
         this.setState({
           loading: false,
-          error: err?.message ?? 'Failed to create event',
+          error: err?.message ?? this.translate.instant('messages.CreateError'),
         });
         return throwError(() => err);
       }),
@@ -190,7 +193,7 @@ export class EventStateService {
       catchError((err) => {
         this.setState({
           loading: false,
-          error: err?.message ?? 'Failed to update event',
+          error: err?.message ?? this.translate.instant('messages.UpdateError'),
         });
         return throwError(() => err);
       }),
@@ -213,7 +216,7 @@ export class EventStateService {
       catchError((err) => {
         this.setState({
           loading: false,
-          error: err?.message ?? 'Failed to delete event',
+          error: err?.message ?? this.translate.instant('messages.DeleteError'),
         });
         return throwError(() => err);
       }),
@@ -239,19 +242,24 @@ export class EventStateService {
         ? this.eventsApi.update(eventId, data as UpdateEventModel)
         : this.eventsApi.create(data as CreateEventModel);
 
+    const actionKey = mode === EventMode.CREATE ? 'CreateError' : 'EditError';
+
     return request$.pipe(
       tap(() => {
-        const action =
-          mode === EventMode.CREATE ? EventMode.CREATE : EventMode.EDIT;
-        this.notification.success('Success', `Event ${action} successfully!`);
+        this.notification.success(
+          this.translate.instant('common.Success'),
+          this.translate.instant(`events.messages.${actionKey}`)
+        );
       }),
       catchError((err) => {
-        const action =
-          mode === EventMode.CREATE ? EventMode.CREATE : EventMode.EDIT;
-        this.notification.error('Error', `Failed to ${action} event.`);
+        this.notification.error(
+          this.translate.instant('common.Error'),
+          this.translate.instant(`events.messages.${actionKey}`)
+        );
         this.setState({
           loading: false,
-          error: err?.message ?? 'An unknown error occurred',
+          error:
+            err?.message ?? this.translate.instant('messages.UnknownError'),
         });
         return throwError(() => err);
       }),
