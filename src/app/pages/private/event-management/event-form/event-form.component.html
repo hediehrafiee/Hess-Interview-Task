@@ -1,11 +1,96 @@
 <nz-card nzTitle="Event" class="event-form-card">
-  <form nz-form [formGroup]="form" (ngSubmit)="submit()">
-    <nz-form-item>
-      <nz-form-label nzFor="title" [nzRequired]="true">Title</nz-form-label>
-      <nz-form-control nzErrorTip="Please enter a title">
-        <input nz-input id="title" formControlName="title" />
-      </nz-form-control>
-    </nz-form-item>
+  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()">
+    <nz-row nzGutter="16">
+      <nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="title" [nzRequired]="true">Title</nz-form-label>
+          <nz-form-control
+            nzErrorTip="Please enter a title"
+            [nzValidateStatus]="
+              form.get('title')?.invalid && form.get('title')?.touched
+                ? 'error'
+                : ''
+            "
+          >
+            <input nz-input id="title" formControlName="title" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="venue" [nzRequired]="true"
+            >Location</nz-form-label
+          >
+          <nz-form-control
+            nzErrorTip="Please enter location"
+            [nzValidateStatus]="
+              form.get('venueId')?.invalid && form.get('venueId')?.touched
+                ? 'error'
+                : ''
+            "
+          >
+            <input nz-input id="venue" formControlName="venueId" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+
+    <nz-row nzGutter="16">
+      <nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="startDateTime" [nzRequired]="true"
+            >Date & Time</nz-form-label
+          >
+          <nz-form-control
+            nzErrorTip="Please select date and time"
+            [nzValidateStatus]="
+              form.get('startDateTime')?.invalid &&
+              form.get('startDateTime')?.touched
+                ? 'error'
+                : ''
+            "
+          >
+            <nz-date-picker
+              id="startDateTime"
+              formControlName="startDateTime"
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm"
+              nzPlaceHolder="Select date and time"
+              style="width: 100%"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="timezone" [nzRequired]="true"
+            >Timezone</nz-form-label
+          >
+          <nz-form-control
+            nzErrorTip="Please select timezone"
+            [nzValidateStatus]="
+              form.get('timezone')?.invalid && form.get('timezone')?.touched
+                ? 'error'
+                : ''
+            "
+          >
+            <nz-select
+              id="timezone"
+              formControlName="timezone"
+              nzPlaceHolder="Select timezone"
+              nzShowSearch
+              style="width: 100%"
+            >
+              <nz-option
+                *ngFor="let tz of timeZones"
+                [nzLabel]="tz"
+                [nzValue]="tz"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
 
     <nz-form-item>
       <nz-form-label nzFor="description">Description</nz-form-label>
@@ -14,83 +99,88 @@
           nz-input
           id="description"
           formControlName="description"
+          [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+          placeholder="Enter event description"
         ></textarea>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzFor="startDateTime" [nzRequired]="true"
-        >Date & Time</nz-form-label
-      >
-      <nz-form-control nzErrorTip="Select date and time">
-        <nz-date-picker
-          id="startDateTime"
-          formControlName="startDateTime"
-          nzShowTime
-        ></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
+    <nz-row nzGutter="16">
+      <nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="primaryImage">Primary Image</nz-form-label>
+          <nz-form-control>
+            <nz-upload
+              nzListType="picture-card"
+              [(nzFileList)]="primaryImageHandler.fileList"
+              [nzShowButton]="primaryImageHandler.fileList.length < 1"
+              [nzLimit]="1"
+              nzAccept="image/*"
+              [nzBeforeUpload]="primaryImageHandler.beforeUpload"
+              (nzRemove)="primaryImageHandler.remove()"
+            >
+              <nz-icon nzType="plus"></nz-icon>
+              <div class="ant-upload-text">Upload</div>
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzFor="coverImage">Cover Image</nz-form-label>
+          <nz-form-control>
+            <nz-upload
+              nzListType="picture-card"
+              [(nzFileList)]="coverImageHandler.fileList"
+              [nzShowButton]="coverImageHandler.fileList.length < 1"
+              [nzLimit]="1"
+              nzAccept="image/*"
+              [nzBeforeUpload]="coverImageHandler.beforeUpload"
+              (nzRemove)="coverImageHandler.remove()"
+            >
+              <nz-icon nzType="plus"></nz-icon>
+              <div class="ant-upload-text">Upload</div>
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
 
     <nz-form-item>
-      <nz-form-label nzFor="timezone" [nzRequired]="true"
-        >Timezone</nz-form-label
-      >
-      <nz-form-control nzErrorTip="Select timezone">
-        <nz-select id="timezone" formControlName="timezone">
-          <nz-option
-            *ngFor="let tz of timeZones"
-            [nzLabel]="tz"
-            [nzValue]="tz"
-          ></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label nzFor="venue" [nzRequired]="true">Location</nz-form-label>
-      <nz-form-control nzErrorTip="Enter location">
-        <input nz-input id="venue" formControlName="venueId" />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label nzFor="primaryImage">Primary Image</nz-form-label>
+      <nz-form-label nzFor="isPublic">Public Event</nz-form-label>
       <nz-form-control>
-        <nz-upload
-          nzListType="picture"
-          [nzBeforeUpload]="beforePrimaryUpload"
-          [nzFileList]="primaryImageList"
-        >
-          <button nz-button type="button">Upload</button>
-        </nz-upload>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label nzFor="coverImage">Cover Image</nz-form-label>
-      <nz-form-control>
-        <nz-upload
-          nzListType="picture"
-          [nzBeforeUpload]="beforeCoverUpload"
-          [nzFileList]="coverImageList"
-        >
-          <button nz-button type="button">Upload</button>
-        </nz-upload>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label nzFor="isPublic">Public</nz-form-label>
-      <nz-form-control>
-        <nz-switch id="isPublic" formControlName="isPublic"></nz-switch>
+        <nz-switch
+          id="isPublic"
+          formControlName="isPublic"
+          nzCheckedChildren="Public"
+          nzUnCheckedChildren="Private"
+        ></nz-switch>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-control>
-        <button nz-button nzType="primary" [disabled]="form.invalid">
-          Save
-        </button>
+        <nz-space>
+          <button
+            *nzSpaceItem
+            nz-button
+            nzType="primary"
+            type="submit"
+            [nzLoading]="eventState.loading()"
+            [disabled]="eventState.loading()"
+          >
+            Submit
+          </button>
+          <button
+            *nzSpaceItem
+            nz-button
+            type="button"
+            (click)="cancel()"
+            [disabled]="eventState.loading()"
+          >
+            Cancel
+          </button>
+        </nz-space>
       </nz-form-control>
     </nz-form-item>
   </form>
