@@ -41,6 +41,8 @@ export class ImageHandler {
           thumbUrl: url,
         },
       ];
+    } else {
+      this.fileList = [];
     }
   }
 }
