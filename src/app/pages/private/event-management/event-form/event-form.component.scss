@@ -1,0 +1,42 @@
+@use "../../../../theme/styles/shared" as *;
+
+.event-form {
+  @include flexVerticalCenter;
+  @include position(fixed, 0 0 0 0);
+  padding-top: $top-menu-height;
+  background-color: $background-light;
+
+  .event-form-card {
+    width: 600px;
+    max-width: 100%;
+    margin: 0 auto;
+    animation: fadeIn $animation-duration-base $ease-in-out;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: $margin-md;
+    }
+
+    button[nzType="primary"] {
+      width: 100%;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.action-buttons {
+  padding-inline-end: $padding-sm;
+  @include flexHorizontal;
+  justify-content: end;
+}
