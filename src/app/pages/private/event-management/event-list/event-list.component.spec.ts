@@ -74,7 +74,7 @@ describe('EventListComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call load on the eventState service', () => {.
+    it('should call load on the eventState service', () => {
       expect(mockEventStateService.load).toHaveBeenCalled();
     });
   });
