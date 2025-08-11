@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  computed,
   inject,
   signal,
+  OnInit,
+  effect,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -18,17 +20,23 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
-
-import { EventService } from '@common/services/event.service';
-import { CreateEventModel } from '@common/models/dtos/create-event.model';
-import { UpdateEventModel } from '@common/models/dtos/update-event.model';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable, of } from 'rxjs';
-import { CommonModule } from '@angular/common';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
+import { EventStateService } from '@core/services/event/event.state.service';
+import { EventMode } from '@common/Enums/event.enum';
+import { ImageHandler } from '@common/utilities/image-handler.utility';
+import { EventModel } from '@common/models/event.model';
+import { CreateEventModel } from '@common/models/dtos/create-event.model';
+import { UpdateEventModel } from '@common/models/dtos/update-event.model';
+import { Observable } from 'rxjs';
+
+/**
+ * A reactive form component for creating and updating events.
+ * It focuses on UI logic and delegates state management to a dedicated service.
+ */
 @Component({
   selector: 'app-event-form',
   standalone: true,
@@ -49,132 +57,136 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzGridModule,
     NzIconModule,
     NzSpaceModule,
+    NzSpinModule,
   ],
 })
-export default class EventFormComponent {
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
-  private eventService = inject(EventService);
+export default class EventFormComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  readonly eventState = inject(EventStateService);
 
   eventId: string | null = null;
-  mode = signal<'create' | 'edit'>('create');
+  mode = signal<EventMode>(EventMode.CREATE);
+
+  readonly timeZones = (Intl as any).supportedValuesOf?.('timeZone') ?? ['UTC'];
+  private readonly defaultTz =
+    Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
   form = this.fb.group({
-    title: ['', [Validators.required]],
-    description: [''],
+    title: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(200)],
+    ],
+    description: ['', [Validators.maxLength(1000)]],
     startDateTime: [null as Date | null, [Validators.required]],
-    timezone: ['UTC', [Validators.required]],
-    venueId: ['', [Validators.required]],
+    timezone: [this.defaultTz, [Validators.required]],
+    venueId: ['', [Validators.required, Validators.minLength(2)]],
     primaryImageUrl: [''],
     coverImageUrl: [''],
     isPublic: [true],
   });
 
-  primaryImageList: NzUploadFile[] = [];
-  coverImageList: NzUploadFile[] = [];
+  primaryImageHandler = new ImageHandler(this.form.controls.primaryImageUrl);
+  coverImageHandler = new ImageHandler(this.form.controls.coverImageUrl);
 
-  timeZones = (Intl as any).supportedValuesOf
-    ? (Intl as any).supportedValuesOf('timeZone')
-    : ['UTC'];
+  constructor() {
+    effect(() => {
+      const event = this.eventState.eventDetail();
+      if (event) {
+        this.patchForm(event);
+        this.eventId = event.id || null;
+        this.mode.set(EventMode.EDIT);
+      }
+    });
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.eventId = id;
-      this.mode.set('edit');
-      this.eventService
-        .findOne(id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((event) => {
-          if (!event) return;
-          this.form.patchValue({
-            title: event.title,
-            description: event.description,
-            startDateTime: event.startDateTime
-              ? new Date(event.startDateTime)
-              : null,
-            timezone: event.timezone,
-            venueId: event.venueId,
-            primaryImageUrl: event.primaryImageUrl ?? '',
-            coverImageUrl: event.coverImageUrl ?? '',
-            isPublic: event.isPublic ?? true,
-          });
-          if (event.primaryImageUrl) {
-            this.primaryImageList = [
-              {
-                uid: '-1',
-                name: 'primary',
-                status: 'done',
-                url: event.primaryImageUrl,
-              },
-            ];
-          }
-          if (event.coverImageUrl) {
-            this.coverImageList = [
-              {
-                uid: '-1',
-                name: 'cover',
-                status: 'done',
-                url: event.coverImageUrl,
-              },
-            ];
-          }
-        });
+      this.eventState.loadOne(id);
+    } else {
+      this.eventState.eventDetail.set(null);
+      this.mode.set(EventMode.CREATE);
     }
-  }
-
-  beforePrimaryUpload = (file: NzUploadFile): boolean => {
-    this.readFile(file, (url) => {
-      this.form.patchValue({ primaryImageUrl: url });
-      this.primaryImageList = [file];
-    });
-    return false;
-  };
-
-  beforeCoverUpload = (file: NzUploadFile): boolean => {
-    this.readFile(file, (url) => {
-      this.form.patchValue({ coverImageUrl: url });
-      this.coverImageList = [file];
-    });
-    return false;
-  };
-
-  private readFile(file: NzUploadFile, cb: (url: string) => void) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => cb(reader.result as string));
-    reader.readAsDataURL(file as unknown as File);
   }
 
   submit(): void {
     if (this.form.invalid) {
-      this.form.markAllAsTouched();
+      this.markAllAsTouched();
+      this.eventState.message.warning(
+        'Please fill in all required fields correctly.'
+      );
       return;
     }
-    const value = this.form.value;
-    const payload: CreateEventModel | UpdateEventModel = {
-      title: value.title!,
-      venueId: value.venueId!,
-      startDateTime: value.startDateTime!.toISOString(),
-      endDateTime: value.startDateTime!.toISOString(),
-      timezone: value.timezone!,
-      description: value.description || undefined,
-      primaryImageUrl: value.primaryImageUrl || undefined,
-      coverImageUrl: value.coverImageUrl || undefined,
-      isPublic: value.isPublic ?? true,
-    };
-    let request$: Observable<any>;
-    if (this.mode() === 'edit' && this.eventId) {
-      request$ = this.eventService.update(
-        this.eventId,
-        payload as UpdateEventModel
-      );
-    } else {
-      request$ = this.eventService.create(payload as CreateEventModel);
-    }
-    request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.router.navigate(['../'], { relativeTo: this.route });
+
+    this.eventState
+      .submitEvent(this.toPayload(), this.mode(), this.eventId ?? undefined)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.navigateToList());
+  }
+
+  cancel(): void {
+    this.navigateToList();
+  }
+
+  private patchForm(event: EventModel): void {
+    this.form.patchValue({
+      title: event.title,
+      description: event.description,
+      startDateTime: event.startDateTime ? new Date(event.startDateTime) : null,
+      timezone: event.timezone ?? this.defaultTz,
+      venueId: event.venueId,
+      primaryImageUrl: event.primaryImageUrl,
+      coverImageUrl: event.coverImageUrl,
+      isPublic: event.isPublic,
     });
+    this.primaryImageHandler.createInitialFile(
+      event.primaryImageUrl,
+      'primary-image'
+    );
+    this.coverImageHandler.createInitialFile(
+      event.coverImageUrl,
+      'cover-image'
+    );
+  }
+
+  private toPayload(): CreateEventModel | UpdateEventModel {
+    const {
+      title,
+      venueId,
+      startDateTime,
+      timezone,
+      description,
+      primaryImageUrl,
+      coverImageUrl,
+      isPublic,
+    } = this.form.value;
+
+    const startIso = startDateTime!.toISOString();
+
+    return {
+      title: title!.trim(),
+      venueId: venueId!.trim(),
+      startDateTime: startIso,
+      endDateTime: startIso,
+      timezone: timezone!,
+      description: description?.trim(),
+      primaryImageUrl: primaryImageUrl || undefined,
+      coverImageUrl: coverImageUrl || undefined,
+      isPublic: isPublic ?? true,
+    };
+  }
+
+  private markAllAsTouched(): void {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+      control.updateValueAndValidity();
+    });
+  }
+
+  private navigateToList(): void {
+    this.router.navigate(['p/events']);
   }
 }
