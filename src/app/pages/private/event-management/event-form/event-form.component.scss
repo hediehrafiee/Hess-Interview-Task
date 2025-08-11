@@ -13,8 +13,7 @@
     animation: fadeIn $animation-duration-base $ease-in-out;
 
     form {
-      display: flex;
-      flex-direction: column;
+      @include flexVertical;
       gap: $margin-md;
     }
 
