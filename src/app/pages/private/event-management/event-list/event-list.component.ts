@@ -14,10 +14,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { SharedModule } from '@common/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  EventStateService,
-  SortDirection,
-} from '@core/services/event.state.service';
+import { EventStateService } from '@core/services/event/event.state.service';
+import { SortDirection } from '@common/Enums/base.enum';
 
 @Component({
   selector: 'app-event-list',
@@ -41,21 +39,22 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EventListComponent {
-  readonly vm = inject(EventStateService);
+  readonly eventStates = inject(EventStateService);
   private readonly router = inject(Router);
   readonly SortDirection = SortDirection;
 
   ngOnInit(): void {
-    this.vm.load();
+    this.eventStates.load();
   }
 
   edit(id?: string) {
     if (id) this.router.navigate(['/p/events', id, 'edit']);
   }
   create(): void {
+    this.eventStates.eventDetail.set(null);
     this.router.navigate(['/p/events/new']);
   }
   remove(id?: string) {
-    if (id) this.vm.remove(id);
+    if (id) this.eventStates.remove(id);
   }
 }
