@@ -1,4 +1,4 @@
-# AGENT.md — Event Management
+# Event Management
 
 > **Purpose:** This document tells an AI collaborator (and human reviewers) **what to do, how to do it, and when it’s done** for the Event Management feature. It encodes architecture, constraints, contracts, workflows, and guardrails so your agent can reliably ship, fix, and refactor code in a senior-quality way.
 
